@@ -1,12 +1,20 @@
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
-APP_ID= "5c82f9e4"
-API_KEY="9a9a8ac79dbfc2d3d518585f217d9fd8"
-GENDER="male"
-WEIGHT_KG="65"
-HEIGHT_CM="170"
-AGE="20"
+load_dotenv()
+
+APP_ID = os.getenv("APP_ID")
+API_KEY = os.getenv("API_KEY")
+GENDER = os.getenv("GENDER")
+WEIGHT_KG = os.getenv("WEIGHT_KG")
+HEIGHT_CM = os.getenv("HEIGHT_CM")
+AGE = os.getenv("AGE")
+sheety_endpoint = os.getenv("SHEETY_ENDPOINT")
+sheet_username = os.getenv("SHEETY_USERNAME")
+sheet_password = os.getenv("SHEETY_PASSWORD")
+
 
 exercise_text=input("Tell about your workout:\n")
 headers={
@@ -29,7 +37,6 @@ print(result)
 today_date= datetime.now().strftime("%Y%m%d")
 now_time = datetime.now().strftime("%X")
 
-sheety_endpoint="https://api.sheety.co/8e9d04e95a1d223b72cd70815b818908/myWorkouts2/workouts"
 
 for exercise in result['exercises']:
     sheet_inputs={
@@ -43,5 +50,5 @@ for exercise in result['exercises']:
     }
 
 #Basic Authentication
-sheet_response = requests.post(sheety_endpoint,json=sheet_inputs, auth=("zain1101","shah@5372"))
+sheet_response = requests.post(sheety_endpoint,json=sheet_inputs, auth=(sheet_username,sheet_password))
 sheet_response.raise_for_status()
